@@ -1,6 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+/*
+1. Diseño modelo
+Diseñar un modelo Mongoose de "Post" con al menos los siguientes campos y validaciones en su esquema:
+- id: string
+- createdAt: Date
+- updatedAt: Date
+- title: string, requerido, más de 5 caracteres
+- text: string, requerido, más de 5 caracteres
+- author: string, requerido
+*/
+
 const schema = new Schema({
   title: {
     type: String,
