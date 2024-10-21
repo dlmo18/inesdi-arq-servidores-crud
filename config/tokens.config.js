@@ -17,7 +17,7 @@ module.exports.loadSession = (token) => {
 };
 
 module.exports.auth = function(req, res, next) {
-    const token = req.headers.authorization;
+    const token = req.headers.cookie ? req.headers.cookie.split("=")[1] : req.headers.authorization;
     const user = sessionTokens[token];
 
     if(!user) {

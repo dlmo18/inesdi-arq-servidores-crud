@@ -56,6 +56,7 @@ module.exports.login = (req, res, next) => {
       user.checkPassword( req.body.password ).then((match) => {
         if(match) {
           const token = tokens.createSession(user);
+          res.header("Set-Cookie", `session_token=${token}`);
           res.json({ token: token });
         }
         else {
