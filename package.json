@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon  app.js",
-    "seeds": "node bin/seeds.js"
+    "seeds": "node bin/seeds.js",
+    "test": "jest --watchAll"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "http-errors": "^1.8.0",
+    "jest": "^29.7.0",
     "mongodb-memory-server": "^7.4.2",
     "mongoose": "^5.13.5",
     "morgan": "^1.10.0",
@@ -26,7 +28,9 @@
     "multer-storage-cloudinary": "^4.0.0",
     "passport": "^0.4.1",
     "passport-google-oauth": "^2.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "save-dev": "^0.0.1-security",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
     "faker": "^5.5.3",

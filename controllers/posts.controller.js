@@ -1,24 +1,8 @@
 const createError = require('http-errors');
-const Like = require('../models/like.model');
-const Comment = require('../models/comment.model');
 const Post = require('../models/post.model');
 
 module.exports.list = (req, res, next) => {
-  const criteria = {}
-
-  if (req.query.search) {
-    criteria.post = new RegExp(req.query.search, 'i')
-  }
-
-  Post.find(criteria)
-    .populate('likes')
-    .populate({
-      path: 'comments',
-      populate: {
-        path: 'user'
-      } 
-    })
-    .populate('author')
+  Post.find()
     .then(posts => res.json(posts))
     .catch(next);
 }
@@ -29,15 +13,26 @@ module.exports.detail = (req, res, next) => {
       if (post) {
         res.json(post)
       } else {
-        next(createError(404, 'post not found'))
+        next(createError(404, 'Post no encontrado'))
       }
     })
     .catch(next)
 }
 
 module.exports.delete = (req, res, next) => {
-  req.post.delete()
-    .then(() => res.status(204).send())
+  const { id } = req.params;
+
+  Post.findByIdAndDelete(id, function(err, model) {
+      //console.log('model',model,err);
+      if(!model) {
+        res.status(404).json({ error: `Post ID ${req.params.id} no encontrado.` });
+      } else{
+          return model;
+      }
+    })
+    .then(() => {
+      res.status(204).json({ message: `Post ID ${req.params.id} eliminado correctamente.` });
+    })
     .catch(next)
 }
 
@@ -45,51 +40,28 @@ module.exports.create = (req, res, next) => {
   const data = { text } = req.body
 
   Post.create({
-    ...data,
-    image: req.file?.path,
-    author: req.user.id
+    ...data
   })
     .then(post => res.status(201).json(post))
     .catch(next)
 }
 
 module.exports.edit = (req, res, next) => {
-  const data = { text } = req.body;
+  const { id } = req.params;
+  const data = req.body;
 
-  if (req.file) {
-    data.image = req.file?.path
-  }
+  Post.findByIdAndUpdate(id, data, function(err, model) {
+      //console.log('model',model,err);
+      if(!model) {
+        res.status(404).json({ error: `Post ID ${req.params.id} no encontrado.` });
+      } else{
+          return model;
+      }
+    })
+    .then(() => {
+      res.status(200).json({ message: `Post ID ${req.params.id} actualizado correctamente.` });
+    })
+    .catch(next);
 
-  Object.assign(req.post, data);
-
-  post.save()
-    .then(post => res.json(post))
-    .catch(next)
 }
 
-module.exports.like = (req, res, next) => {
-  const data = { post: req.params.id, user: req.user.id }
-
-  Like.findOne(data)
-    .then(like => like ? like.delete() : Like.create(data))
-    .then(() => res.status(204).send())
-    .catch(next)
-}
-
-module.exports.createComment = (req, res, next) => {
-  const data = { text } = req.body
-
-  Comment.create({
-    ...data,
-    user: req.user.id,
-    post: req.params.id
-  })
-    .then((comment) => res.status(201).send(comment))
-    .catch(next)
-}
-
-module.exports.deleteComment = (req, res, next) => {
-  req.comment.delete()
-    .then(() => res.status(204).send())
-    .catch(next)
-}
