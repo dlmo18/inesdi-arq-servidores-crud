@@ -37,6 +37,7 @@ module.exports.delete = (req, res, next) => {
 }
 
 module.exports.create = (req, res, next) => {
+  
   const data = { text } = req.body
 
   Post.create({
