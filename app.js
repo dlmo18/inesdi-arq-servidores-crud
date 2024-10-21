@@ -4,7 +4,6 @@ const createError = require('http-errors');
 const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
-const passport = require('passport');
 
 require('./config/db.config');
 const cors = require('./config/cors.config');
