@@ -1,36 +1,35 @@
 const express = require('express');
 const router = express.Router();
 const posts = require('../controllers/posts.controller')
-
+const users = require('../controllers/users.controller')
+const tokens = require('../config/tokens.config');
 
 /*
-Codificar los siguientes endpoints de acceso público (sin autenticación necesaria)
-1. POST /api/posts
-- Recibe body JSON con los campos title, text y author.
-- Devuelve HTTP 201 con el detalle JSON del Post creado en la Base de Datos en memoria
-- Devuelve HTTP 400 si hay errores en la validación del body de la petición contra el esquema definido
+Codificar los siguientes endpoints HTTP sobre el API:
 
-2. GET /api/posts
-- Devuelve HTTP 200 OK con el listado JSON de posts almacenados en la Base de Datos en memoria
+POST /api/users
+- No necesita estar autenticada
+- Recibe body JSON con los campos name, email, password y bio
+- Almacena el usuario en Base de Datos en memoria cifrando su contraseña (el cifrado de la contraseña es opcional)
 
-3. GET /api/posts/<id>
-- Devuelve 200 OK con detalle de un Post JSON almacenado en la Base de Datos en memoria
-- Devuelve 404 si el post no existe en la Base de Datos en memoria
-
-4. PATCH /api/posts/<id>
-- Recibe body JSON con alguno de los campos title, text y author.
-- Devuelve 200 OK con detalle de un Post JSON almacenado en la Base de Datos en memoria tras modificar sus atributos con lo indicado en el body
-- Devuelve 404 si el post no existe en la Base de Datos en memoria
-
-5. DELETE /api/posts/<id>
-- Devuelve HTTP 204 tras eliminar el post id == <id> de la Base de Datos en memoria
-- Devuelve 404 si el post no existe en la Base de Datos en memoria
+2. POST /api/login
+- Recibe body con email, password
+- Devuelve HTTP 200 OK con token JWT de sesión si las credenciales son correctas
+- Devuelve HTTP 400 en caso de error en la validación de datos
+- Devuelve HTTP 401 si las credenciales no son correctas
 */
+router.post('/users', users.create)
+router.get('/users/:id', tokens.auth, users.get)
+router.post('/login', users.login)
 
-router.post('/posts', posts.create)
-router.get('/posts', posts.list)
-router.get('/posts/:id', posts.detail)
-router.patch('/posts/:id', posts.edit)
-router.delete('/posts/:id', posts.delete)
+/*
+4. El resto de endpoints de nuestra API (CRUD de Posts) deben requerir autenticación y devolver código HTTP 401 ante peticiones no autenticadas.
+*/
+router.post('/posts', tokens.auth,  posts.create)
+router.get('/posts', tokens.auth, posts.list)
+router.get('/posts/:id', tokens.auth, posts.detail)
+router.patch('/posts/:id', tokens.auth, posts.edit)
+router.delete('/posts/:id', tokens.auth, posts.delete)
+
 
 module.exports = router;
