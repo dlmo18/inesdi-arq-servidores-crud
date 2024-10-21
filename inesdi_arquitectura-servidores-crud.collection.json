@@ -13,14 +13,20 @@
 					"name": "Detalle",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "c7485120-4764-4f73-8d6a-eeb7d5827590",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{server}}posts/6716229e6e4992f4256c2ed3",
+							"raw": "{{server}}posts/6716d7ce6d5d62e93ab1d34f",
 							"host": [
 								"{{server}}posts"
 							],
 							"path": [
-								"6716229e6e4992f4256c2ed3"
+								"6716d7ce6d5d62e93ab1d34f"
 							]
 						}
 					},
@@ -41,12 +47,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{server}}posts/67163140fced69a94779bd0c",
+							"raw": "{{server}}posts/671648e2f124f571a79bb60b",
 							"host": [
 								"{{server}}posts"
 							],
 							"path": [
-								"67163140fced69a94779bd0c"
+								"671648e2f124f571a79bb60b"
 							]
 						}
 					},
@@ -58,12 +64,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{server}}posts/671630bbfced69a94779bd05",
+							"raw": "{{server}}posts/671648e2f124f571a79bb60b",
 							"host": [
 								"{{server}}posts"
 							],
 							"path": [
-								"671630bbfced69a94779bd05"
+								"671648e2f124f571a79bb60b"
 							]
 						}
 					},
@@ -73,7 +79,13 @@
 					"name": "Listar",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "c7485120-4764-4f73-8d6a-eeb7d5827590",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{server}}posts",
 							"host": [
@@ -87,10 +99,16 @@
 					"name": "Agregar",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "c7485120-4764-4f73-8d6a-eeb7d5827590",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Publicación 1\",\n    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\n    \"author\": \"David Molina\"\n}",
+							"raw": "{\n    \"title\": \"Publicación B\",\n    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\n    \"author\": \"David\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,6 +119,80 @@
 							"raw": "{{server}}posts",
 							"host": [
 								"{{server}}posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Agregar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"David Molina\",\n    \"email\": \"david.molina.ojeda@gmail.com\",\n    \"password\": \"Dmolina#2024\",\n    \"bio\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}users",
+							"host": [
+								"{{server}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"david.molina.ojeda@gmail.com\",\n    \"password\": \"Dmolina#2024\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}login",
+							"host": [
+								"{{server}}login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detalle",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "c7485120-4764-4f73-8d6a-eeb7d5827590",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}users/6716d7b16d5d62e93ab1d34a",
+							"host": [
+								"{{server}}users"
+							],
+							"path": [
+								"6716d7b16d5d62e93ab1d34a"
 							]
 						}
 					},
