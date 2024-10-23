@@ -197,6 +197,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Validacion",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "c7485120-4764-4f73-8d6a-eeb7d5827590",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}users/verify/6716d7b16d5d62e93ab1d34a",
+							"host": [
+								"{{server}}users"
+							],
+							"path": [
+								"verify",
+								"6716d7b16d5d62e93ab1d34a"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
