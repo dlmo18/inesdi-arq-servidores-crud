@@ -57,15 +57,23 @@ module.exports.login = (req, res, next) => {
 
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
-      user.checkPassword(req.body.password).then((match) => {
-        if (match) {
-          const token = tokens.createSession(user);
-          res.header("Set-Cookie", `session_token=${token}`);
-          res.json({ token: token });
-        } else {
-          res.status(401).json({ message: `Clave inválida.` });
-        }
-      });
+
+      if(!user.active) {
+        res.status(401).json({ message: `Cuenta de usuario no verificada.` });
+      }
+      else {
+        user.checkPassword(req.body.password).then((match) => {
+          if (match) {
+            const token = tokens.createSession(user);
+            res.header("Set-Cookie", `session_token=${token}`);
+            res.json({ token: token });
+          } else {
+            res.status(401).json({ message: `Clave inválida.` });
+          }
+        });
+      }
+
+      
     } else {
       res.status(404).json({ message: `Usuario ${req.body.email} no existe.` });
     }
@@ -78,20 +86,29 @@ module.exports.verify = (req, res, next) => {
   if (!code) {
     next(createError(404, "Código inválido"));
   } else {
-    const info = jwt.verify(code, "bankai");
-
-    User.findById(info.user_id).then((user) => {
+    const info = jwt.verify(code, process.env.SECRET_KEY);
+    
+    User.findById(info.uid).then((user) => {
       if (user) {
-        user.status = true;
-        user.save().then(() => {
+        
+        if( user.email != info.email ) {
           res
-            .status(200)
-            .json({ message: `Usuario habilitado correctamente.` });
-        });
+          .status(404)
+          .json({ message: `Email de usuario ${info.email} no coincide.` });
+        }
+        else {
+          user.active = true;
+          user.save().then(() => {
+            res
+              .status(200)
+              .json({ message: `Usuario habilitado correctamente.` });
+          });
+        }
+
       } else {
         res
           .status(404)
-          .json({ message: `ID de Usuario ${user_id} no existe.` });
+          .json({ message: `ID de Usuario ${info.uid} no existe.` });
       }
     });
   }

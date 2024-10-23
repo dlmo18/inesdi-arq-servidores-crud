@@ -11,6 +11,14 @@ Se incluye el uso de:
 
 ## Comandos disponibles
 
+Previo al lanzamiento asegurar que se tenta estos valore en en el archiv .ENV
+```
+SECRET_KEY="bankai"
+PORT=8000
+SENDGRID_API_KEY="reemplazar por un api send grid"
+```
+Si *SENDGRID_API_KEY* esta vacio no envia el mail, solo muestra en la consola la URL
+
 Inicio de funcionalidades
 ```
 npm start
